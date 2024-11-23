@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image"; // Assuming you're using Next.js for image optimization
 
-const ProgramUnggulan = () => {
+const Donasi = () => {
     return (
         <section className="w-full">
-            <h3 className="text-xl font-bold mb-4">Program Unggulan</h3>
+            <h3 className="text-xl font-bold mb-4">Donasi</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="container mx-auto p-4">
                     <div className="border rounded-lg shadow-md p-4 text-center">
@@ -65,4 +65,4 @@ const ProgramUnggulan = () => {
     );
 };
 
-export default ProgramUnggulan;
+export default Donasi;
