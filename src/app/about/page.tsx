@@ -52,59 +52,59 @@ export default function About() {
                         {/* Team Member 1 */}
                         <div className="text-center">
                             <Image
-                                src="/team-member1.jpg"
+                                src="/2.jpg"
                                 alt="Team Member 1"
                                 width={96}
                                 height={96}
                                 className="mx-auto rounded-full"
                             />
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
-                                John Doe
+                                Taufan Rizky
                             </h3>
-                            <p className="text-sm text-gray-600">Founder & CEO</p>
+                            <p className="text-sm text-gray-600">Ketua Kelompok</p>
                         </div>
 
                         {/* Team Member 2 */}
                         <div className="text-center">
                             <Image
-                                src="/team-member2.jpg"
+                                src="/2.jpg"
                                 alt="Team Member 2"
                                 width={96}
                                 height={96}
                                 className="mx-auto rounded-full"
                             />
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
-                                Jane Smith
+                                Deva Bagus Apriadi
                             </h3>
-                            <p className="text-sm text-gray-600">Program Director</p>
+                            <p className="text-sm text-gray-600">Anggota</p>
                         </div>
                         {/* {team meber 3} */}
                         <div className="text-center">
                             <Image
-                                src="/team-member2.jpg"
+                                src="/2.jpg"
                                 alt="Team Member 2"
                                 width={96}
                                 height={96}
                                 className="mx-auto rounded-full"
                             />
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
-                                Jane Smith
+                                Faisal
                             </h3>
-                            <p className="text-sm text-gray-600">Program Director</p>
+                            <p className="text-sm text-gray-600">Anggota</p>
                         </div>
                         {/* Team Member 3 */}
                         <div className="text-center">
                             <Image
-                                src="/team-member3.jpg"
+                                src="/2.jpg"
                                 alt="Team Member 3"
                                 width={96}
                                 height={96}
                                 className="mx-auto rounded-full"
                             />
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
-                                Alex Johnson
+                                Muhamad Rama
                             </h3>
-                            <p className="text-sm text-gray-600">Community Manager</p>
+                            <p className="text-sm text-gray-600">Anggota</p>
                         </div>
                     </div>
                 </div>
