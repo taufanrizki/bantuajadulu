@@ -9,8 +9,8 @@ export default function Home() {
       <NavbarAtas />
       <Hero />
       <Grid />
-      <footer className="row-start-3 text-center text-gray-600 text-sm">
-        <p>© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
+      <footer className="bg-gray-800 text-white text-center py-4">
+        <p className="text-sm">© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
         <div className="flex justify-center gap-4 mt-4">
           <a
             href="https://facebook.com"

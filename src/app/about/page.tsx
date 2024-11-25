@@ -59,9 +59,8 @@ export default function About() {
                                 className="mx-auto rounded-full"
                             />
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
-                                Taufan Rizky
+                                Taufan Rizki
                             </h3>
-                            <p className="text-sm text-gray-600">Ketua Kelompok</p>
                         </div>
 
                         {/* Team Member 2 */}
@@ -76,7 +75,6 @@ export default function About() {
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
                                 Deva Bagus Apriadi
                             </h3>
-                            <p className="text-sm text-gray-600">Anggota</p>
                         </div>
                         {/* {team meber 3} */}
                         <div className="text-center">
@@ -90,9 +88,8 @@ export default function About() {
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
                                 Faisal
                             </h3>
-                            <p className="text-sm text-gray-600">Anggota</p>
                         </div>
-                        {/* Team Member 3 */}
+                        {/* Team Member 4 */}
                         <div className="text-center">
                             <Image
                                 src="/2.jpg"
@@ -104,7 +101,6 @@ export default function About() {
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
                                 Muhamad Rama
                             </h3>
-                            <p className="text-sm text-gray-600">Anggota</p>
                         </div>
                     </div>
                 </div>
