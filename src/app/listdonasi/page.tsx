@@ -7,7 +7,7 @@ export default function Home() {
             <NavbarAtas />
             lsit donasi
             <footer className="row-start-3 text-center text-gray-600 text-sm">
-                <p>© 2024 Website Donasi Online. All Rights Reserved.</p>
+                <p>© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
 
             </footer>
         </div>

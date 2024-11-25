@@ -10,7 +10,7 @@ export default function Home() {
       <Hero />
       <Grid />
       <footer className="row-start-3 text-center text-gray-600 text-sm">
-        <p>© 2024 Website Donasi Online. All Rights Reserved.</p>
+        <p>© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
         <div className="flex justify-center gap-4 mt-4">
           <a
             href="https://facebook.com"
