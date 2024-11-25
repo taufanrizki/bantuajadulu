@@ -1,7 +1,5 @@
 import Image from "next/image";
 import NavbarAtas from "@/components/ui/navigation-menu";
-import Hero from "@/components/ui/hero";
-import Grid from "@/components/ui/grid-coloum"
 
 export default function Home() {
     return (
