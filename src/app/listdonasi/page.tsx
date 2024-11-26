@@ -4,7 +4,7 @@ const donationList = [
   {
     id: 1,
     name: "Pendidikan Anak Yatim",
-    href: "/donate/1",
+    href: "/donasi/1",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "A group of children studying with books.",
     target: 50000000,
@@ -13,7 +13,7 @@ const donationList = [
   {
     id: 2,
     name: "Bantuan Bencana Alam",
-    href: "/donate/2",
+    href: "/donasi/2",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "People receiving aid after a natural disaster.",
     target: 100000000,
@@ -22,7 +22,7 @@ const donationList = [
   {
     id: 3,
     name: "Program Pangan Sehat",
-    href: "/donate/3",
+    href: "/donasi/3",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "Fresh and healthy food packages.",
     target: 30000000,
@@ -31,7 +31,7 @@ const donationList = [
   {
     id: 4,
     name: "Renovasi Sekolah",
-    href: "/donate/4",
+    href: "/donasi/4",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "A school building under renovation.",
     target: 80000000,
@@ -44,7 +44,7 @@ export default function DonationList() {
     <div className="h-screen flex flex-col">
       <NavbarAtas />
 
-      {/* Donation List */}
+      {/* List Donasi */}
       <div className="bg-gray-50 flex-grow">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -90,11 +90,12 @@ export default function DonationList() {
                   </div>
                   <div className="mt-4 text-right">
                     <a
-                      href={donation.href}
+                      href={`/donasi/${donation.id}/payment`}
                       className="inline-block bg-blue-600 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-700 transition"
                     >
                       Donasi Sekarang
                     </a>
+
                   </div>
                 </div>
               );
