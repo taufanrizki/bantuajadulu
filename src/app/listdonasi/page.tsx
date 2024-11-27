@@ -1,10 +1,11 @@
 import NavbarAtas from "@/components/ui/navigation-menu";
+import Link from "next/link"; // Use Link for client-side routing
 
+// Donation List Data
 const donationList = [
   {
     id: 1,
     name: "Pendidikan Anak Yatim",
-    href: "/donasi/1",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "A group of children studying with books.",
     target: 50000000,
@@ -13,7 +14,6 @@ const donationList = [
   {
     id: 2,
     name: "Bantuan Bencana Alam",
-    href: "/donasi/2",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "People receiving aid after a natural disaster.",
     target: 100000000,
@@ -22,7 +22,6 @@ const donationList = [
   {
     id: 3,
     name: "Program Pangan Sehat",
-    href: "/donasi/3",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "Fresh and healthy food packages.",
     target: 30000000,
@@ -31,7 +30,6 @@ const donationList = [
   {
     id: 4,
     name: "Renovasi Sekolah",
-    href: "/donasi/4",
     imageSrc: "/listdonasi/bencana.jpg",
     imageAlt: "A school building under renovation.",
     target: 80000000,
@@ -42,9 +40,10 @@ const donationList = [
 export default function DonationList() {
   return (
     <div className="h-screen flex flex-col">
+      {/* Navbar */}
       <NavbarAtas />
 
-      {/* List Donasi */}
+      {/* Donation List Section */}
       <div className="bg-gray-50 flex-grow">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -53,22 +52,28 @@ export default function DonationList() {
 
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {donationList.map((donation) => {
-              const progress =
-                Math.min((donation.collected / donation.target) * 100, 100);
+              // Calculate progress percentage
+              const progress = Math.min(
+                (donation.collected / donation.target) * 100,
+                100
+              );
 
               return (
                 <div key={donation.id} className="group relative">
+                  {/* Donation Image */}
                   <img
-                    alt={donation.imageAlt}
                     src={donation.imageSrc}
+                    alt={donation.imageAlt}
                     className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
                   />
+
+                  {/* Donation Details */}
                   <div className="mt-4">
                     <h3 className="text-sm font-bold text-gray-700">
-                      <a href={donation.href}>
+                      <Link href={`/donasi/${donation.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {donation.name}
-                      </a>
+                      </Link>
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">
                       Target: Rp {donation.target.toLocaleString()}
@@ -77,7 +82,7 @@ export default function DonationList() {
                       Collected: Rp {donation.collected.toLocaleString()}
                     </p>
 
-                    {/* Progression Bar */}
+                    {/* Progress Bar */}
                     <div className="w-full mt-2 bg-gray-200 rounded-full h-2.5">
                       <div
                         className="bg-blue-600 h-2.5 rounded-full"
@@ -88,14 +93,15 @@ export default function DonationList() {
                       {progress.toFixed(1)}%
                     </p>
                   </div>
+
+                  {/* Donate Now Button */}
                   <div className="mt-4 text-right">
-                    <a
-                      href={`/donasi/${donation.id}/payment`}
+                    <Link
+                      href={`/donasi/${donation.id}`}
                       className="inline-block bg-blue-600 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-700 transition"
                     >
                       Donasi Sekarang
-                    </a>
-
+                    </Link>
                   </div>
                 </div>
               );
@@ -104,6 +110,7 @@ export default function DonationList() {
         </div>
       </div>
 
+      {/* Footer */}
       <footer className="bg-gray-800 text-white text-center py-4">
         <p className="text-sm">© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
       </footer>
