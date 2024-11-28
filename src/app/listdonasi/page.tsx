@@ -1,5 +1,5 @@
 import NavbarAtas from "@/components/ui/navigation-menu";
-import Link from "next/link"; // Use Link for client-side routing
+import Link from "next/link";
 
 // Donation List Data
 const donationList = [
@@ -102,6 +102,13 @@ export default function DonationList() {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white text-center py-4">
+        <p className="text-sm">
+          © 2024 <span className="font-bold">Bantu Aja Dulu</span>. All Rights Reserved.
+        </p>
+      </footer>
     </div>
   );
 }
