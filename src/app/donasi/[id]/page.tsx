@@ -1,49 +1,47 @@
-"use client"; // Untuk menandakan ini adalah komponen client-side
-
+"use client";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import NavbarAtas from "@/components/ui/navigation-menu";
-import Link from "next/link";
 
 // Data donasi (ini bisa diambil dari API atau database)
 const donationList = [
     {
         id: 1,
         name: "Pendidikan Anak Yatim",
-        target: 50000000,
-        imageSrc: "/listdonasi/bencana.jpg",
+        imageSrc: "/listdonasi/sekolah.jpg",
         imageAlt: "A group of children studying with books.",
+        target: 50000000,
+        collected: 30000000,
     },
     {
         id: 2,
         name: "Bantuan Bencana Alam",
-        target: 100000000,
         imageSrc: "/listdonasi/bencana.jpg",
         imageAlt: "People receiving aid after a natural disaster.",
+        target: 100000000,
+        collected: 75000000,
     },
     {
         id: 3,
         name: "Program Pangan Sehat",
-        target: 30000000,
-        imageSrc: "/listdonasi/bencana.jpg",
+        imageSrc: "/listdonasi/pangan.jpg",
         imageAlt: "Fresh and healthy food packages.",
+        target: 30000000,
+        collected: 15000000,
     },
     {
         id: 4,
         name: "Renovasi Sekolah",
         target: 80000000,
-        imageSrc: "/listdonasi/bencana.jpg",
+        imageSrc: "/listdonasi/renov.jpg",
         imageAlt: "A school building under renovation.",
     },
 ];
 
 const PaymentPage = () => {
-    const { id } = useParams(); // Menggunakan useParams untuk mendapatkan id dari URL
-
-    // Mencari data donasi berdasarkan id
+    const { id } = useParams();
     const donation = donationList.find((donation) => donation.id.toString() === id);
 
-    // State untuk jumlah donasi dan metode pembayaran
     const [amount, setAmount] = useState<number>(0);
     const [paymentMethod, setPaymentMethod] = useState<string>("transferBank");
 
@@ -51,7 +49,6 @@ const PaymentPage = () => {
         return <p>Donasi tidak ditemukan.</p>;
     }
 
-    // Fungsi untuk menangani submit form pembayaran
     const handlePaymentSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         alert(`Pembayaran sebesar Rp ${amount.toLocaleString()} berhasil dilakukan dengan metode ${paymentMethod}.`);
@@ -59,7 +56,6 @@ const PaymentPage = () => {
 
     return (
         <div className="h-screen flex flex-col">
-            {/* Navbar */}
             <NavbarAtas />
 
             {/* Halaman Pembayaran */}
@@ -69,9 +65,7 @@ const PaymentPage = () => {
                         Pembayaran Donasi
                     </h2>
 
-                    {/* Membagi layout menjadi dua kolom */}
                     <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {/* Gambar Donasi */}
                         <div>
                             <img
                                 src={donation.imageSrc}
@@ -80,14 +74,12 @@ const PaymentPage = () => {
                             />
                         </div>
 
-                        {/* Form Pembayaran */}
                         <div>
                             <h3 className="text-xl font-bold text-gray-700 mt-4">{donation.name}</h3>
                             <p className="text-sm text-gray-500">
                                 Target Donasi: Rp {donation.target.toLocaleString()}
                             </p>
 
-                            {/* Form Pembayaran */}
                             <form onSubmit={handlePaymentSubmit} className="mt-6 space-y-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -132,7 +124,6 @@ const PaymentPage = () => {
                 </div>
             </div>
 
-            {/* Footer */}
             <footer className="bg-gray-800 text-white text-center py-4">
                 <p className="text-sm">© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
             </footer>

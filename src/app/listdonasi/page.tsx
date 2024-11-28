@@ -6,7 +6,7 @@ const donationList = [
   {
     id: 1,
     name: "Pendidikan Anak Yatim",
-    imageSrc: "/listdonasi/bencana.jpg",
+    imageSrc: "/listdonasi/sekolah.jpg",
     imageAlt: "A group of children studying with books.",
     target: 50000000,
     collected: 30000000,
@@ -22,7 +22,7 @@ const donationList = [
   {
     id: 3,
     name: "Program Pangan Sehat",
-    imageSrc: "/listdonasi/bencana.jpg",
+    imageSrc: "/listdonasi/pangan.jpg",
     imageAlt: "Fresh and healthy food packages.",
     target: 30000000,
     collected: 15000000,
@@ -30,7 +30,7 @@ const donationList = [
   {
     id: 4,
     name: "Renovasi Sekolah",
-    imageSrc: "/listdonasi/bencana.jpg",
+    imageSrc: "/listdonasi/renov.jpg",
     imageAlt: "A school building under renovation.",
     target: 80000000,
     collected: 80000000,
@@ -43,7 +43,7 @@ export default function DonationList() {
       {/* Navbar */}
       <NavbarAtas />
 
-      {/* Donation List Section */}
+      {/* Main Content */}
       <div className="bg-gray-50 flex-grow">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -69,12 +69,7 @@ export default function DonationList() {
 
                   {/* Donation Details */}
                   <div className="mt-4">
-                    <h3 className="text-sm font-bold text-gray-700">
-                      <Link href={`/donasi/${donation.id}`}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {donation.name}
-                      </Link>
-                    </h3>
+                    <h3 className="text-sm font-bold text-gray-700">{donation.name}</h3>
                     <p className="mt-1 text-sm text-gray-500">
                       Target: Rp {donation.target.toLocaleString()}
                     </p>
@@ -83,18 +78,16 @@ export default function DonationList() {
                     </p>
 
                     {/* Progress Bar */}
-                    <div className="w-full mt-2 bg-gray-200 rounded-full h-2.5">
+                    <div className="mt-2 w-full bg-gray-200 rounded-full h-2.5">
                       <div
                         className="bg-blue-600 h-2.5 rounded-full"
                         style={{ width: `${progress}%` }}
                       ></div>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {progress.toFixed(1)}%
-                    </p>
+                    <p className="mt-1 text-xs text-gray-500">{progress.toFixed(1)}%</p>
                   </div>
 
-                  {/* Donate Now Button */}
+                  {/* Donation Button */}
                   <div className="mt-4 text-right">
                     <Link
                       href={`/donasi/${donation.id}`}
@@ -109,11 +102,6 @@ export default function DonationList() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white text-center py-4">
-        <p className="text-sm">© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
-      </footer>
     </div>
   );
 }
