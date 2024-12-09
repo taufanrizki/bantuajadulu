@@ -1,7 +1,6 @@
 import NavbarAtas from "@/components/ui/navigation-menu";
 import Link from "next/link";
 
-// Donation List Data
 const donationList = [
   {
     id: 1,
@@ -40,10 +39,8 @@ const donationList = [
 export default function DonationList() {
   return (
     <div className="h-screen flex flex-col">
-      {/* Navbar */}
       <NavbarAtas />
 
-      {/* Main Content */}
       <div className="bg-gray-50 flex-grow">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -52,7 +49,6 @@ export default function DonationList() {
 
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {donationList.map((donation) => {
-              // Calculate progress percentage
               const progress = Math.min(
                 (donation.collected / donation.target) * 100,
                 100
@@ -60,14 +56,12 @@ export default function DonationList() {
 
               return (
                 <div key={donation.id} className="group relative">
-                  {/* Donation Image */}
                   <img
                     src={donation.imageSrc}
                     alt={donation.imageAlt}
                     className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
                   />
 
-                  {/* Donation Details */}
                   <div className="mt-4">
                     <h3 className="text-sm font-bold text-gray-700">{donation.name}</h3>
                     <p className="mt-1 text-sm text-gray-500">
@@ -77,7 +71,6 @@ export default function DonationList() {
                       Collected: Rp {donation.collected.toLocaleString()}
                     </p>
 
-                    {/* Progress Bar */}
                     <div className="mt-2 w-full bg-gray-200 rounded-full h-2.5">
                       <div
                         className="bg-blue-600 h-2.5 rounded-full"
@@ -87,7 +80,6 @@ export default function DonationList() {
                     <p className="mt-1 text-xs text-gray-500">{progress.toFixed(1)}%</p>
                   </div>
 
-                  {/* Donation Button */}
                   <div className="mt-4 text-right">
                     <Link
                       href={`/donasi/${donation.id}`}
@@ -103,7 +95,6 @@ export default function DonationList() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="bg-gray-800 text-white text-center py-4">
         <p className="text-sm">
           © 2024 <span className="font-bold">Bantu Aja Dulu</span>. All Rights Reserved.

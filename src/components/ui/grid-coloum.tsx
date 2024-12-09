@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-// Donasi List Data
 const donationList = [
     {
         id: 1,
@@ -47,7 +46,6 @@ export default function DonationList() {
 
                             return (
                                 <div key={donation.id} className="group relative">
-                                    {/* Donasi Image */}
                                     <img
                                         src={donation.imageSrc}
                                         alt={donation.imageAlt}
