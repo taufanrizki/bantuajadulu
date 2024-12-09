@@ -3,7 +3,6 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import NavbarAtas from "@/components/ui/navigation-menu";
 
-// Data donasi (ini bisa diambil dari API atau database)
 const donationList = [
     {
         id: 1,
@@ -32,9 +31,10 @@ const donationList = [
     {
         id: 4,
         name: "Renovasi Sekolah",
-        target: 80000000,
         imageSrc: "/listdonasi/renov.jpg",
         imageAlt: "A school building under renovation.",
+        target: 80000000,
+        collected: 0,
     },
 ];
 
@@ -43,28 +43,43 @@ const PaymentPage = () => {
     const donation = donationList.find((donation) => donation.id.toString() === id);
 
     const [amount, setAmount] = useState<number>(0);
-    const [paymentMethod, setPaymentMethod] = useState<string>("transferBank");
+    const [paymentMethod, setPaymentMethod] = useState<string>("");
 
     if (!donation) {
-        return <p>Donasi tidak ditemukan.</p>;
+        return (
+            <div className="h-screen flex items-center justify-center">
+                <p className="text-red-600 font-semibold text-lg">Donasi tidak ditemukan.</p>
+            </div>
+        );
     }
 
     const handlePaymentSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        alert(`Pembayaran sebesar Rp ${amount.toLocaleString()} berhasil dilakukan dengan metode ${paymentMethod}.`);
+
+        if (amount <= 0) {
+            alert("Masukkan jumlah donasi yang valid.");
+            return;
+        }
+
+        if (!paymentMethod) {
+            alert("Pilih metode pembayaran.");
+            return;
+        }
+
+        alert(
+            `Pembayaran sebesar Rp ${amount.toLocaleString()} berhasil dilakukan dengan metode ${paymentMethod}.`
+        );
     };
 
     return (
         <div className="h-screen flex flex-col">
             <NavbarAtas />
 
-            {/* Halaman Pembayaran */}
             <div className="bg-gray-50 flex-grow">
                 <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                         Pembayaran Donasi
                     </h2>
-
                     <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div>
                             <img
@@ -78,6 +93,9 @@ const PaymentPage = () => {
                             <h3 className="text-xl font-bold text-gray-700 mt-4">{donation.name}</h3>
                             <p className="text-sm text-gray-500">
                                 Target Donasi: Rp {donation.target.toLocaleString()}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                                Donasi Terkumpul: Rp {donation.collected.toLocaleString()}
                             </p>
 
                             <form onSubmit={handlePaymentSubmit} className="mt-6 space-y-4">
@@ -106,6 +124,9 @@ const PaymentPage = () => {
                                         required
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                     >
+                                        <option value="" disabled>
+                                            Pilih Metode Pembayaran
+                                        </option>
                                         <option value="transferBank">Transfer Bank</option>
                                         <option value="eWallet">E-Wallet</option>
                                         <option value="creditCard">Kartu Kredit</option>
