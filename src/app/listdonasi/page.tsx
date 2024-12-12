@@ -1,8 +1,12 @@
+// src/app/listdonasi/page.tsx
 "use client";
 
 import NavbarAtas from "@/components/ui/navigation-menu";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
+// Definisikan tipe data donasi
+// Tambahkan di atas fungsi DonationList
 type Donation = {
   id: number;
   name: string;
@@ -12,25 +16,37 @@ type Donation = {
   collected: number;
 };
 
-export default function DonationList() {
-  const [donationList, setDonationList] = useState<Donation[]>(() => {
-    const storedDonations = localStorage.getItem("donationList");
-    return storedDonations ? JSON.parse(storedDonations) : [];
-  });
 
+export default function DonationList() {
+  const [donationList, setDonationList] = useState<Donation[]>([]);
   const [donationAmounts, setDonationAmounts] = useState<{ [key: number]: string }>({});
   const [searchTerm, setSearchTerm] = useState("");
-  const [newDonation, setNewDonation] = useState<Donation>({
-    id: 0,
+  const [newDonation, setNewDonation] = useState({
     name: "",
     imageSrc: "",
-    imageAlt: "",
-    target: 0,
-    collected: 0,
+    target: "",
   });
 
+  // Ambil data donasi dari API saat komponen di-mount
   useEffect(() => {
-    localStorage.setItem("donationList", JSON.stringify(donationList));
+    fetchDonations();
+  }, []);
+
+  // Fungsi untuk mengambil donasi
+  const fetchDonations = async () => {
+    try {
+      const response = await axios.get<Donation[]>("http://localhost:5000/api/donations");
+      setDonationList(response.data);
+    } catch (error) {
+      console.error("Error fetching donations:", error);
+    }
+  };
+
+  // Simpan data donasi ke Local Storage setiap kali `donationList` diperbarui
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("donationList", JSON.stringify(donationList));
+    }
   }, [donationList]);
 
   const handleDonationChange = (id: number, amount: string) => {
@@ -40,62 +56,75 @@ export default function DonationList() {
     }));
   };
 
-  const handleDonate = (id: number) => {
-    const amount = parseInt(donationAmounts[id]) || 0;  
+  const handleDonate = async (id: number) => {
+    const amount = parseInt(donationAmounts[id]) || 0;
     if (amount <= 0) {
       alert("Jumlah donasi harus lebih besar dari 0.");
       return;
     }
 
-    setDonationList((prev: Donation[]) =>
-      prev.map((donation: Donation) =>
-        donation.id === id
-          ? {
-              ...donation,
-              collected: Math.min(donation.collected + amount, donation.target),
-            }
-          : donation
-      )
-    );
+    // Cari donasi yang dipilih
+    const selectedDonation = donationList.find((donation) => donation.id === id);
+    if (!selectedDonation) {
+      alert("Donasi tidak ditemukan.");
+      return;
+    }
 
-    setDonationAmounts((prev) => ({
-      ...prev,
-      [id]: "",
-    }));
+    if (selectedDonation.collected + amount > selectedDonation.target) {
+      alert("Jumlah donasi melebihi target.");
+      return;
+    }
+
+    try {
+      // Kirim permintaan donasi ke API
+      const response = await axios.post<Donation>(`http://localhost:5000/api/donations/${id}/donate`, {
+        amount,
+      });
+
+      // Update daftar donasi dengan data terbaru
+      setDonationList((prev) =>
+        prev.map((donation) =>
+          donation.id === id ? response.data : donation
+        )
+      );
+
+      // Reset input donasi
+      setDonationAmounts((prev) => ({
+        ...prev,
+        [id]: "",
+      }));
+    } catch (error) {
+      console.error("Error donating:", error);
+    }
   };
 
-  const handleAddDonation = () => {
-    if (!newDonation.name || !newDonation.imageSrc || !newDonation.target) {
+  const handleAddDonation = async () => {
+    const { name, imageSrc, target } = newDonation;
+
+    if (!name || !imageSrc || !target) {
       alert("Semua field wajib diisi.");
       return;
     }
 
-    const newId = donationList.length
-      ? donationList[donationList.length - 1].id + 1
-      : 1;
+    try {
+      // Kirim donasi baru ke API
+      const response = await axios.post<Donation>("http://localhost:5000/api/donations", {
+        name,
+        imageSrc,
+        target: parseInt(target, 10),
+      });
 
-    const newDonationEntry: Donation = {
-      id: newId,
-      name: newDonation.name,
-      imageSrc: newDonation.imageSrc,
-      imageAlt: `Image of ${newDonation.name}`,
-      target: parseInt(newDonation.target.toString(), 10),
-      collected: 0,
-    };
+      // Tambahkan donasi baru ke daftar
+      setDonationList((prev) => [...prev, response.data]);
 
-    setDonationList((prev) => [...prev, newDonationEntry]);
-
-    setNewDonation({
-      id: 0,
-      name: "",
-      imageSrc: "",
-      imageAlt: "",
-      target: 0,
-      collected: 0,
-    });
+      // Reset form
+      setNewDonation({ name: "", imageSrc: "", target: "" });
+    } catch (error) {
+      console.error("Error adding donation:", error);
+    }
   };
 
-  const filteredDonations = donationList.filter((donation: Donation) =>
+  const filteredDonations = donationList.filter((donation) =>
     donation.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -114,66 +143,64 @@ export default function DonationList() {
             placeholder="Cari Donasi..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border rounded-md p-1 w-full mb-4"
+            className="border rounded-md p-2 w-full mb-6 mt-4"
           />
 
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {filteredDonations.map((donation: Donation) => {
-            const progress = Math.min(
-              (donation.collected / donation.target) * 100,
-              100
-            );
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            {filteredDonations.map((donation) => {
+              const progress = Math.min(
+                (donation.collected / donation.target) * 100,
+                100
+              );
 
-            return (
-              <div key={donation.id} className="group relative">
-                <img
-                  src={donation.imageSrc}
-                  alt={donation.imageAlt}
-                  className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80" />
+              return (
+                <div key={donation.id} className="group relative bg-white shadow-md rounded-lg overflow-hidden">
+                  <img
+                    src={donation.imageSrc}
+                    alt={donation.imageAlt}
+                    className="w-full h-48 object-cover group-hover:opacity-75"
+                  />
 
-                <div className="mt-4">
-                  <h3 className="text-sm font-bold text-gray-700">
-                    {donation.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Target: Rp{" "}
-                    {new Intl.NumberFormat("id-ID").format(donation.target)}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Collected: Rp{" "}
-                    {new Intl.NumberFormat("id-ID").format(donation.collected)}
-                  </p>
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold text-gray-800">{donation.name}</h3>
+                    <p className="mt-2 text-sm text-gray-600">
+                      Target: Rp {new Intl.NumberFormat("id-ID").format(donation.target)}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Collected: Rp {new Intl.NumberFormat("id-ID").format(donation.collected)}
+                    </p>
 
-                  <div className="mt-2 w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-blue-600 h-2.5 rounded-full"
-                      style={{ width: `${progress}%` }}
-                    ></div>
+                    <div className="mt-2 w-full bg-gray-200 rounded-full h-2.5">
+                      <div
+                        className="bg-blue-600 h-2.5 rounded-full"
+                        style={{ width: `${progress}%` }}
+                      ></div>
+                    </div>
+                    <p className="mt-1 text-sm text-gray-600">
+                      Progress: {progress.toFixed(2)}%
+                    </p>
+
+                    <input
+                      type="number"
+                      placeholder="Jumlah Donasi"
+                      value={donationAmounts[donation.id] || ""}
+                      onChange={(e) => handleDonationChange(donation.id, e.target.value)}
+                      className="border rounded-md p-2 w-full mt-4"
+                    />
+                    <button
+                      onClick={() => handleDonate(donation.id)}
+                      className="mt-2 w-full bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700"
+                    >
+                      Donasi Sekarang
+                    </button>
                   </div>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Progress: {progress.toFixed(2)}%
-                  </p>
-
-                  <input
-                    type="number"
-                    placeholder="Jumlah Donasi"
-                    value={donationAmounts[donation.id] || ""}
-                    onChange={(e) => handleDonationChange(donation.id, e.target.value)}
-                    className="border rounded-md p-1 w-full mt-2" />
-                  <button
-                    onClick={() => handleDonate(donation.id)}
-                    className="mt-2 w-full bg-blue-600 text-white rounded-md p-2 hover:bg-blue-700"
-                  >
-                    Donasi Sekarang
-                  </button>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
           </div>
 
-          <h3 className="text-xl font-bold mt-8">Tambah Donasi Baru</h3>
-          <div className="mt-4">
+          <h3 className="text-xl font-bold mt-12">Tambah Donasi Baru</h3>
+          <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
             <input
               type="text"
               placeholder="Nama Donasi"
@@ -181,7 +208,7 @@ export default function DonationList() {
               onChange={(e) =>
                 setNewDonation({ ...newDonation, name: e.target.value })
               }
-              className="border rounded-md p-1 w-full mb-2"
+              className="border rounded-md p-2 w-full mb-4"
             />
             <input
               type="text"
@@ -190,18 +217,17 @@ export default function DonationList() {
               onChange={(e) =>
                 setNewDonation({ ...newDonation, imageSrc: e.target.value })
               }
-              className="border rounded-md p-1 w-full mb-2"
+              className="border rounded-md p-2 w-full mb-4"
             />
             <input
-            type="number"
-            placeholder="Target Donasi"
-            value={newDonation.target}
-            onChange={(e) =>
-            setNewDonation({ ...newDonation, target: +e.target.value }) 
-  }
-  className="border rounded-md p-1 w-full mb-2"
-/>
-
+              type="number"
+              placeholder="Target Donasi"
+              value={newDonation.target}
+              onChange={(e) =>
+                setNewDonation({ ...newDonation, target: e.target.value })
+              }
+              className="border rounded-md p-2 w-full mb-4"
+            />
             <button
               onClick={handleAddDonation}
               className="w-full bg-green-600 text-white rounded-md p-2 hover:bg-green-700"
