@@ -67,7 +67,7 @@ export default function DonationList() {
                                     <div className="mt-4 text-right">
                                         <Link
                                             href={`/donasi/${donation.id}`}
-                                            className="inline-block bg-blue-600 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-700 transition"
+                                            className="inline-block bg-blue-600 text-white px-4 py-2 text-sm rounded-md hover:bg-red-700 transition"
                                         >
                                             Donasi
                                         </Link>

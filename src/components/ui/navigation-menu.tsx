@@ -3,7 +3,8 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react
 const navigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'List Donasi', href: '/listdonasi/', current: false },
-  { name: 'About', href: '/about', current: false },
+  { name: 'About', href: '/about/', current: false },
+  { name: 'Feedback', href: '/feedback', current: false },
 ]
 
 function classNames(...classes: any) {
