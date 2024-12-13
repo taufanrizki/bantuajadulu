@@ -99,7 +99,7 @@ export default function About() {
                                 className="mx-auto rounded-full"
                             />
                             <h3 className="mt-4 text-lg font-semibold text-gray-800">
-                                Muhamad Rama
+                                Muhammad Rama
                             </h3>
                         </div>
                     </div>
