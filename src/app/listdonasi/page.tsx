@@ -21,11 +21,7 @@ export default function DonationList() {
   const [donationList, setDonationList] = useState<Donation[]>([]);
   const [donationAmounts, setDonationAmounts] = useState<{ [key: number]: string }>({});
   const [searchTerm, setSearchTerm] = useState("");
-  const [newDonation, setNewDonation] = useState({
-    name: "",
-    imageSrc: "",
-    target: "",
-  });
+
 
   // Ambil data donasi dari API saat komponen di-mount
   useEffect(() => {
@@ -95,32 +91,6 @@ export default function DonationList() {
       }));
     } catch (error) {
       console.error("Error donating:", error);
-    }
-  };
-
-  const handleAddDonation = async () => {
-    const { name, imageSrc, target } = newDonation;
-
-    if (!name || !imageSrc || !target) {
-      alert("Semua field wajib diisi.");
-      return;
-    }
-
-    try {
-      // Kirim donasi baru ke API
-      const response = await axios.post<Donation>("http://localhost:5000/api/donations", {
-        name,
-        imageSrc,
-        target: parseInt(target, 10),
-      });
-
-      // Tambahkan donasi baru ke daftar
-      setDonationList((prev) => [...prev, response.data]);
-
-      // Reset form
-      setNewDonation({ name: "", imageSrc: "", target: "" });
-    } catch (error) {
-      console.error("Error adding donation:", error);
     }
   };
 
@@ -198,45 +168,12 @@ export default function DonationList() {
               );
             })}
           </div>
-
-          <h3 className="text-xl font-bold mt-12">Tambah Donasi Baru</h3>
-          <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
-            <input
-              type="text"
-              placeholder="Nama Donasi"
-              value={newDonation.name}
-              onChange={(e) =>
-                setNewDonation({ ...newDonation, name: e.target.value })
-              }
-              className="border rounded-md p-2 w-full mb-4"
-            />
-            <input
-              type="text"
-              placeholder="URL Gambar"
-              value={newDonation.imageSrc}
-              onChange={(e) =>
-                setNewDonation({ ...newDonation, imageSrc: e.target.value })
-              }
-              className="border rounded-md p-2 w-full mb-4"
-            />
-            <input
-              type="number"
-              placeholder="Target Donasi"
-              value={newDonation.target}
-              onChange={(e) =>
-                setNewDonation({ ...newDonation, target: e.target.value })
-              }
-              className="border rounded-md p-2 w-full mb-4"
-            />
-            <button
-              onClick={handleAddDonation}
-              className="w-full bg-green-600 text-white rounded-md p-2 hover:bg-green-700"
-            >
-              Tambah Donasi
-            </button>
-          </div>
         </div>
       </div>
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white text-center py-4 mt-auto">
+        <p className="text-sm">© 2024 Bantu Aja Dulu. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 }

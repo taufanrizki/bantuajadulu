@@ -1,5 +1,5 @@
 "use client";
-
+import NavbarAtas from "@/components/ui/navigation-menu";
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid"; // Untuk membuat ID unik
 import { useRouter } from "next/navigation"; // Tambahkan ini untuk navigasi
@@ -70,6 +70,7 @@ const FeedbackPage = () => {
                 minHeight: "100vh",
             }}
         >
+
             {/* Tombol Kembali */}
             <button
                 onClick={() => router.back()} // Fungsi untuk kembali ke halaman sebelumnya

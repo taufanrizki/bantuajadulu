@@ -48,7 +48,7 @@ export default function DonationList() {
             <NavbarAtas />
 
             <div className="flex-grow container mx-auto py-12">
-                <h3 className="text-2xl font-bold text-center mb-6">Tambah Donasi Baru</h3>
+                <h3 className="text-2xl font-bold text-center mb-6">Program Donasi Baru</h3>
                 <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
                     <input
                         type="text"
